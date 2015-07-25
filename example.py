@@ -19,48 +19,48 @@ along with this code.  If not, see <http:#www.gnu.org/licenses/>.
 
 from mavlink_autopylot import MAVLinkAutoPylot
 
+class Cycler(object):
+
+    def __init__(self, chanidx, value, minval, maxval):
+
+        self.chanidx = chanidx
+        self.value = value
+        self.minval = minval
+        self.maxval = maxval
+        self.direction = +1
+
+    def cycle(self):
+
+        pwm = [0] * 8
+        pwm[self.chanidx] = self.value
+
+        if self.value > self.maxval:
+            self.direction = -1
+
+        if self.value < self.minval:
+            self.direction = +1
+
+        self.value += self.direction * 10
+
+        return pwm
+
+
 class AutoPylotTest(MAVLinkAutoPylot):
 
     def __init__(self, port, baud):
 
         MAVLinkAutoPylot.__init__(self, port, baud)
 
-        self.throttle = 1000
-        self.throttledir = +1
-
-        self.roll = 1500
-        self.rolldir = +1
+        self.throttle = Cycler(2, 1000, 1000, 2000)
+        self.roll     = Cycler(0, 1500, 1200, 1800)
 
     def getChannelsPos1(self):
 
-        pwm = [0] * 8
-        pwm[2] = self.throttle
-
-        if self.throttle > 2000:
-            self.throttledir = -1
-
-        if self.throttle < 1000:
-            self.throttledir = +1
-
-        self.throttle += self.throttledir * 10
-
-        return pwm
+        return self.throttle.cycle()
 
     def getChannelsPos2(self):
 
-        pwm = [0] * 8
-        pwm[0] = self.roll
-
-        if self.roll > 1800:
-            self.rolldir = -1
-
-        if self.roll < 1200:
-            self.rolldir = +1
-
-        self.roll += self.rolldir * 10
-
-        return pwm
-
+        return self.roll.cycle()
 
 if __name__ == '__main__':
 
