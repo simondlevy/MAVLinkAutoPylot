@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 '''
 mavlink_autopylot - Python support for autopilot on MAVLink-based flight controllers
 
@@ -93,63 +91,3 @@ class MAVLinkAutoPylot(object):
         Override for your application
         '''
         return self.default_values
-
-class _AutoPylotTest(MAVLinkAutoPylot):
-
-    def __init__(self, port, baud):
-
-        MAVLinkAutoPylot.__init__(self, port, baud)
-
-        self.throttle = 1000
-        self.throttledir = +1
-
-        self.roll = 1500
-        self.rolldir = +1
-
-    def getChannelsPos1(self):
-
-        pwm = [0] * 8
-        pwm[2] = self.throttle
-
-        if self.throttle > 2000:
-            self.throttledir = -1
-
-        if self.throttle < 1000:
-            self.throttledir = +1
-
-        self.throttle += self.throttledir * 10
-
-        return pwm
-
-    def getChannelsPos2(self):
-
-        pwm = [0] * 8
-        pwm[0] = self.roll
-
-        if self.roll > 1800:
-            self.rolldir = -1
-
-        if self.roll < 1200:
-            self.rolldir = +1
-
-        self.roll += self.rolldir * 10
-
-        return pwm
-
-
-if __name__ == '__main__':
-
-    autopylot = _AutoPylotTest('/dev/ttyUSB0', 57600)
-
-    print('Connected ... hit CTRL-C to quit')
-
-    while True:
-
-        try:
-
-            autopylot.update()
-
-        except KeyboardInterrupt:
-
-            break
-
