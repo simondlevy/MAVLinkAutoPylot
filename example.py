@@ -35,7 +35,7 @@ class Cycler(object):
 
     def cycle(self):
 
-        pwm = [0] * 8
+        pwm = [0] * 4
         pwm[self.chanidx] = self.value
 
         if self.value > self.maxval:

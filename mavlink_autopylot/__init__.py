@@ -65,7 +65,7 @@ class MAVLinkAutoPylot(object):
                         self._send_rc(self.getChannelsPos1())
 
                     else:
-                        self._send_rc(self.default_values)                        
+                        self._send_rc([0] * 4)
 
                 elif msg.chan5_raw < self.pos1usec:
                     self.ready = True
@@ -73,8 +73,9 @@ class MAVLinkAutoPylot(object):
     # attempt to send a control
     def _send_rc(self, data):
 
+
         self.mavmaster.mav.rc_channels_override_send(self.mavmaster.target_system, 
-                self.mavmaster.target_component, *data)
+                self.mavmaster.target_component, *(data+[0]*4))
 
     def getChannelsPos1(self):
         '''
@@ -82,7 +83,7 @@ class MAVLinkAutoPylot(object):
         Default behavior is returning all zeros, so that the original receiver values are used.
         Override for your application
         '''
-        return self.default_values
+        return [0] * 4
 
     def getChannelsPos2(self):
         '''
@@ -90,4 +91,4 @@ class MAVLinkAutoPylot(object):
         Default behavior is returning all zeros, so that the original receiver values are used.
         Override for your application
         '''
-        return self.default_values
+        return [0] * 4
