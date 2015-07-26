@@ -17,9 +17,9 @@ You should have received a copy of the GNU Lesser General Public License
 along with this code.  If not, see <http:#www.gnu.org/licenses/>.
 '''
 
-PORT = '/dev/ttyACM99' # ODROID U-3
+#PORT = '/dev/ttyACM99' # ODROID U-3
 #PORT = 'COM3'          # Windows, typically
-#PORT = '/dev/ttyUSB0'  # Linux, typically
+PORT = '/dev/ttyACM0'  # Linux, typically
 
 from mavlink_autopylot import MAVLinkAutoPylot
 
