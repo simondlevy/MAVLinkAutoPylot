@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-MAVLinkAutoPylot ODROID example : cycles throttle or roll for validation.
+MAVLinkAutoPylot ODROID example : yaws right gently, for validation.
 
 Copyright (C) Simon D. Levy 2015
 
@@ -26,48 +26,11 @@ along with this code.  If not, see <http:#www.gnu.org/licenses/>.
 from mavlink_autopylot import MAVLinkAutoPylot
 import time
 
-class Cycler(object):
-
-    def __init__(self, chanidx, value, minval, maxval):
-
-        self.chanidx = chanidx
-        self.value = value
-        self.minval = minval
-        self.maxval = maxval
-        self.direction = +1
-
-    def cycle(self):
-
-        pwm = [0] * 4
-        pwm[self.chanidx] = self.value
-
-        if self.value > self.maxval:
-            self.direction = -1
-
-        if self.value < self.minval:
-            self.direction = +1
-
-        self.value += self.direction * 10
-
-        return pwm
-
-
 class AutoPylotTest(MAVLinkAutoPylot):
-
-    def __init__(self, port, baud):
-
-        MAVLinkAutoPylot.__init__(self, port, baud)
-
-        self.throttle = Cycler(2, 1000, 1000, 2000)
-        self.roll     = Cycler(0, 1500, 1200, 1800)
 
     def getChannelsPos1(self):
 
         return self.throttle.cycle()
-
-    def getChannelsPos2(self):
-
-        return self.roll.cycle()
 
 if __name__ == '__main__':
 
