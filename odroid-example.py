@@ -30,7 +30,7 @@ class AutoPylotTest(MAVLinkAutoPylot):
 
     def getChannelsPos1(self):
 
-        return self.throttle.cycle()
+        return [0, 0, 0, 1600] # [roll, pitch, yaw, throttle]
 
 if __name__ == '__main__':
 
