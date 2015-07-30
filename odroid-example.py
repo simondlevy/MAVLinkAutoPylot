@@ -23,6 +23,13 @@ You should have received a copy of the GNU Lesser General Public License
 along with this code.  If not, see <http:#www.gnu.org/licenses/>.
 '''
 
+# You should connect ODROID to to Pixhawk's TELEM 1 or TELEM 2 port, 
+# not Pixhawk's micro USB. See:
+# http://diydrones.com/profiles/blogs/pixhawk-odroid-mavlinkautopylot
+#
+#PORT = '/dev/ttyACM99' # UART (level-shifter needed: https://www.sparkfun.com/products/12009)
+PORT = '/dev/ttyUSB0'   # USB  (FTDI adapter needed: https://store.3drobotics.com/products/ftdi-cable-3-3v)
+
 from mavlink_autopylot import MAVLinkAutoPylot
 import time
 
@@ -30,15 +37,15 @@ class AutoPylotTest(MAVLinkAutoPylot):
 
     def getChannelsPos1(self):
 
-        return [0, 0, 0, 1600] # [roll, pitch, yaw, throttle]
+        return [0, 0, 0, 1600] # [roll, pitch, throttle, yaw]
 
 if __name__ == '__main__':
 
-    autopylot = AutoPylotTest('/dev/ttyACM99', 57600)
+    autopylot = AutoPylotTest(PORT, 57600)
+
+    print('ready')
 
     while True:
 
         autopylot.update()
 
-~                                                                                                                       
-~                            
