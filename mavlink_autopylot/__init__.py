@@ -81,7 +81,7 @@ class MAVLinkAutoPylot(object):
         '''
         This method is automatically called when the channe 5 switch is in position 1.
         Default behavior is returning all zeros, so that the original receiver values are used.
-        Override for your application
+        Override for your application, returning desired [roll, pitch, yaw, throttle] list.
         '''
         return [0] * 4
 
@@ -89,6 +89,6 @@ class MAVLinkAutoPylot(object):
         '''
         This method is automatically called when the channe 5 switch is in position 2.
         Default behavior is returning all zeros, so that the original receiver values are used.
-        Override for your application
+        Override for your application, returning desired [roll, pitch, yaw, throttle] list.
         '''
         return [0] * 4
